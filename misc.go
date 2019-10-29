@@ -40,6 +40,22 @@ var tokenCmd = &cobra.Command{
 	},
 }
 
+// command to print token
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Print version",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf(`%s:
+    version     : %s
+    git hash    : %s
+    build date  : %s
+    go version  : %s
+    go compiler : %s
+    platform    : %s/%s
+`, appName, version, commit, buildDate, runtime.Version(), runtime.Compiler, runtime.GOOS, runtime.GOARCH)
+	},
+}
+
 // command to print quota
 // https://docs.trustar.co/api/v13/request_quotas.html
 var quotaCmd = &cobra.Command{

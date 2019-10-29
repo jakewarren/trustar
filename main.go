@@ -34,6 +34,12 @@ var (
 	}{}
 
 	s = spinner.New(spinner.CharSets[14], 100*time.Millisecond)
+
+	// build information set by ldflags
+	appName   = "trustar"
+	version   = "(ﾉ☉ヮ⚆)ﾉ ⌒*:･ﾟ✧"
+	commit    = "(ﾉ☉ヮ⚆)ﾉ ⌒*:･ﾟ✧"
+	buildDate = "(ﾉ☉ヮ⚆)ﾉ ⌒*:･ﾟ✧"
 )
 
 func init() {
@@ -46,6 +52,7 @@ func init() {
 	rootCmd.AddCommand(indicatorCmd)
 	rootCmd.AddCommand(reportCmd)
 	rootCmd.AddCommand(quotaCmd)
+	rootCmd.AddCommand(versionCmd)
 
 	indicatorCmd.AddCommand(indicatorSearchCmd)
 	indicatorCmd.AddCommand(indicatorFindCorrelatedReportsCmd)
