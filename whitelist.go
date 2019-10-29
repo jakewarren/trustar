@@ -14,6 +14,7 @@ var whitelistCmd = &cobra.Command{
 	Short: "Manage the whitelist",
 }
 
+// https://docs.trustar.co/api/v13/indicators/get_whitelist.html
 var whitelistListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List items in the whitelist",
@@ -46,6 +47,7 @@ var whitelistListCmd = &cobra.Command{
 	},
 }
 
+// https://docs.trustar.co/api/v13/indicators/add_to_whitelist.html
 var whitelistAddCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add items to the whitelist",
@@ -57,6 +59,7 @@ var whitelistAddCmd = &cobra.Command{
 	},
 }
 
+// https://docs.trustar.co/api/v13/indicators/delete_from_whitelist.html
 var whitelistDeleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete items from the whitelist",

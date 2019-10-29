@@ -17,6 +17,7 @@ var indicatorCmd = &cobra.Command{
 	Short: "Manage indicators",
 }
 
+// https://docs.trustar.co/api/v13/indicators/search_indicators.html
 var indicatorSearchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "Search indicators",
@@ -76,6 +77,7 @@ func runIndicatorSearch(searchTerm string) (trustar.SearchIndicatorReponse, erro
 	return c.SearchIndicators(query)
 }
 
+// https://docs.trustar.co/api/v13/reports/find_correlated_reports.html
 var indicatorFindCorrelatedReportsCmd = &cobra.Command{
 	Use:   "find-reports",
 	Short: "Find all correlated reports for an indicator",

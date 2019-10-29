@@ -16,6 +16,7 @@ var reportCmd = &cobra.Command{
 	Short: "Interact with reports",
 }
 
+// https://docs.trustar.co/api/v13/reports/search_reports.html
 var reportSearchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "Search reports",

@@ -13,6 +13,7 @@ import (
 )
 
 // command to list available enclaves
+// https://docs.trustar.co/api/v13/enclaves/get_enclaves.html
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Lists enclaves",
