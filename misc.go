@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"text/tabwriter"
 
 	"github.com/fatih/color"
 	"github.com/jakewarren/trustar-golang"
@@ -36,6 +37,31 @@ var tokenCmd = &cobra.Command{
 	Short: "Print access token",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(c.Token.Token)
+	},
+}
+
+// command to print quota
+// https://docs.trustar.co/api/v13/request_quotas.html
+var quotaCmd = &cobra.Command{
+	Use:   "quota",
+	Short: "Print API request quota information",
+	Run: func(cmd *cobra.Command, args []string) {
+		quotas, err := c.RequestQuotas()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		q := quotas[0] // not sure why but Trustar returns this as an array ¯\_(ツ)_/¯
+		w := tabwriter.NewWriter(os.Stdout, 0, 4, 4, ' ', 0)
+
+		lastResetTime, _ := trustar.MsEpochToTime(q.LastResetTime)
+		nextResetTime, _ := trustar.MsEpochToTime(q.NextResetTime)
+
+		fmt.Fprintf(w, "Used requests:\t%d\n", q.UsedRequests)
+		fmt.Fprintf(w, "Max requests:\t%d\n", q.MaxRequests)
+		fmt.Fprintf(w, "Last reset time:\t%s\n", lastResetTime)
+		fmt.Fprintf(w, "Next reset time:\t%s\n", nextResetTime)
+		w.Flush()
 	},
 }
 

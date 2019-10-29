@@ -45,6 +45,7 @@ func init() {
 	rootCmd.AddCommand(whitelistCmd)
 	rootCmd.AddCommand(indicatorCmd)
 	rootCmd.AddCommand(reportCmd)
+	rootCmd.AddCommand(quotaCmd)
 
 	indicatorCmd.AddCommand(indicatorSearchCmd)
 	indicatorCmd.AddCommand(indicatorFindCorrelatedReportsCmd)

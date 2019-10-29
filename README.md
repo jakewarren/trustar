@@ -26,6 +26,7 @@ The program currently reads the API tokens from the `TRUSTAR_CLIENT_ID` and `TRU
 | reports      | search       | Search reports                               | Does support wildcard searches for indicators.                        |
 | reports      | open         | Open the specified report(s) in your browser |                                                                       |
 | list         |              | Lists enclaves                               |                                                                       |
+| quota        |              | Print API request quota information          |                                                                       |
 | token        |              | Print access token                           | Helper function to print your API token, useful for working with curl |
 | whitelist    | add          | Add items to the whitelist                   |                                                                       |
 | whitelist    | delete       | Delete items from the whitelist              |                                                                       |
