@@ -23,7 +23,7 @@ var listCmd = &cobra.Command{
 			fmt.Println(err)
 		}
 
-		// TODO: add option to output as json
+		// TODO: add option to output as json?
 
 		prettyPrint(enclaves)
 	},
@@ -50,6 +50,7 @@ func prettyPrint(enclaves []trustar.Enclave) {
 	tbl.Print()
 }
 
+// TODO: document how to use this in the README
 // completionCmd represents the completion command
 var completionCmd = &cobra.Command{
 	Use:   "autocomplete",
