@@ -1,5 +1,6 @@
 ### Reports endpoint
 - [ ] Get Indicators for Report
+- [X] Search reports
 
 ### Indicators endpoint
 - [X] Get correlated reports for an indicator

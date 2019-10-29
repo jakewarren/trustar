@@ -33,7 +33,7 @@ The program currently reads the API tokens from the `TRUSTAR_CLIENT_ID` and `TRU
 
 ## Roadmap
 
-Current planned features are listed in [TODO.md](TODO.md). I may or may not get around to
+Current planned features are listed in [TODO.md](TODO.md). I may or may not get around to them.
 
 ## Changes
 
