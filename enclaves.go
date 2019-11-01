@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -59,8 +60,9 @@ func setupEnclaveCache() error {
 		return err
 	}
 
-	stats := enclaveCache.Stats()
-	if stats.Items == 0 {
+	// get the number of files in the directory
+	files, _ := ioutil.ReadDir(dir)
+	if len(files) == 0 {
 		return fillEnclaveCache()
 	}
 
