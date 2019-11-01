@@ -113,7 +113,7 @@ var rootCmd = &cobra.Command{
 
 func main() {
 	var err error
-	c, err = trustar.NewClient(viper.GetString("TRUSTAR_CLIENT_ID"), viper.GetString("TRUSTAR_CLIENT_SECRET"), trustar.APIBaseLive)
+	c, err = trustar.NewClient(viper.GetString("TRUSTAR_API_KEY"), viper.GetString("TRUSTAR_API_SECRET"), trustar.APIBaseLive)
 	if err != nil {
 		log.Fatal().Err(err).Msg("error creating client")
 	}

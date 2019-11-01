@@ -14,7 +14,7 @@ go get github.com/jakewarren/trustar
 ## Usage
 
 ### Installation
-The program currently reads the API tokens from the `TRUSTAR_CLIENT_ID` and `TRUSTAR_CLIENT_SECRET` environment variables.
+The program currently reads the API tokens from the `TRUSTAR_API_KEY` and `TRUSTAR_API_SECRET` environment variables.
 
 ### Commands
 | Command      | Subcommand   | Description                                  | Notes                                                                 |
