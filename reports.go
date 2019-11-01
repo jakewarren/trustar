@@ -19,8 +19,9 @@ var reportCmd = &cobra.Command{
 
 // https://docs.trustar.co/api/v13/reports/search_reports.html
 var reportSearchCmd = &cobra.Command{
-	Use:   "search",
+	Use:   "search <search term>",
 	Short: "Search reports",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
 			reports      trustar.ReportResponse
@@ -80,8 +81,9 @@ var reportSearchCmd = &cobra.Command{
 }
 
 var reportOpenCmd = &cobra.Command{
-	Use:   "open",
+	Use:   "open <report id>...",
 	Short: "Open the specified report(s) in your browser",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		for _, a := range args {
 			err := openBrowser(fmt.Sprintf("https://station.trustar.co/constellation/reports/%s", a))

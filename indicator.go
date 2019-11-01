@@ -19,7 +19,7 @@ var indicatorCmd = &cobra.Command{
 
 // https://docs.trustar.co/api/v13/indicators/search_indicators.html
 var indicatorSearchCmd = &cobra.Command{
-	Use:   "search",
+	Use:   "search [indicator]...",
 	Short: "Search indicators",
 	Run: func(cmd *cobra.Command, args []string) {
 		output := func(indicators []trustar.Indicator) {
@@ -79,8 +79,9 @@ func runIndicatorSearch(searchTerm string) (trustar.SearchIndicatorReponse, erro
 
 // https://docs.trustar.co/api/v13/reports/find_correlated_reports.html
 var indicatorFindCorrelatedReportsCmd = &cobra.Command{
-	Use:   "find-reports",
+	Use:   "find-reports <indicator>...",
 	Short: "Find all correlated reports for an indicator",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		for _, a := range args {
 			// find correlated reports for a given indicator

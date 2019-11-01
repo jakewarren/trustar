@@ -15,6 +15,7 @@ import (
 var tokenCmd = &cobra.Command{
 	Use:   "token",
 	Short: "Print access token",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(c.Token.Token)
 	},
@@ -24,6 +25,7 @@ var tokenCmd = &cobra.Command{
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print version",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf(`%s:
     version     : %s
@@ -41,6 +43,7 @@ var versionCmd = &cobra.Command{
 var quotaCmd = &cobra.Command{
 	Use:   "quota",
 	Short: "Print API request quota information",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		quotas, err := c.RequestQuotas()
 		if err != nil {

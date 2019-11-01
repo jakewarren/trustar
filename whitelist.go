@@ -18,6 +18,7 @@ var whitelistCmd = &cobra.Command{
 var whitelistListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List items in the whitelist",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		query := url.Values{}
 		pageNumber := 0
@@ -49,8 +50,9 @@ var whitelistListCmd = &cobra.Command{
 
 // https://docs.trustar.co/api/v13/indicators/add_to_whitelist.html
 var whitelistAddCmd = &cobra.Command{
-	Use:   "add",
+	Use:   "add <indicator>...",
 	Short: "Add items to the whitelist",
+	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		err := c.WhitelistIndicators(args)
 		if err != nil {
@@ -61,7 +63,7 @@ var whitelistAddCmd = &cobra.Command{
 
 // https://docs.trustar.co/api/v13/indicators/delete_from_whitelist.html
 var whitelistDeleteCmd = &cobra.Command{
-	Use:   "delete",
+	Use:   "delete <indicator>...",
 	Short: "Delete items from the whitelist",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

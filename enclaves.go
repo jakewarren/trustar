@@ -19,6 +19,7 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Lists enclaves",
+	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		// get Enclaves
 		enclaves, err := c.GetEnclaves()
