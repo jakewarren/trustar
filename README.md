@@ -1,4 +1,5 @@
 # trustar
+[![GitHub release](http://img.shields.io/github/release/jakewarren/trustar.svg?style=flat-square)](https://github.com/jakewarren/trustar/releases])
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/jakewarren/trustar/blob/master/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jakewarren/trustar)](https://goreportcard.com/report/github.com/jakewarren/trustar)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=shields)](http://makeapullrequest.com)
