@@ -37,6 +37,8 @@ var (
 			excludedTags []string  // TODO: add support for this parameter
 			pageSize     int
 		}
+		verbose  bool
+		debugLog string
 	}{}
 
 	s = spinner.New(spinner.CharSets[14], 100*time.Millisecond)
@@ -59,6 +61,9 @@ func init() {
 	rootCmd.AddCommand(reportCmd)
 	rootCmd.AddCommand(quotaCmd)
 	rootCmd.AddCommand(versionCmd)
+
+	rootCmd.PersistentFlags().BoolVarP(&config.verbose, "verbose", "v", false, "enable verbose output")
+	rootCmd.PersistentFlags().StringVar(&config.debugLog, "debug-log", "", "filename to write a debug log containing the requests to trustar (by default discards debug output)")
 
 	indicatorCmd.AddCommand(indicatorSearchCmd)
 	indicatorCmd.AddCommand(indicatorFindCorrelatedReportsCmd)
@@ -85,6 +90,25 @@ var rootCmd = &cobra.Command{
 	Use:   "trustar",
 	Short: "A CLI for working with Trustar",
 	Long:  `trustar is a swiss army knife for working with Trustar`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if config.verbose {
+			zerolog.SetGlobalLevel(zerolog.DebugLevel)
+		} else {
+			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+		}
+
+		if config.debugLog != "" {
+
+			f, err := os.OpenFile(config.debugLog, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+			if err != nil {
+				log.Fatal().Err(err).Msg("error opening debug log")
+			}
+
+			c.SetLog(f)
+		} else {
+			c.SetLog(ioutil.Discard)
+		}
+	},
 }
 
 func main() {
@@ -93,12 +117,6 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("error creating client")
 	}
-
-	// TODO: add a verbose parameter to specify the logging level
-	zerolog.SetGlobalLevel(zerolog.DebugLevel)
-
-	// TODO: add option for user to log to file
-	c.SetLog(ioutil.Discard)
 
 	_, err = c.GetAccessToken()
 	if err != nil {
