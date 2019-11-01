@@ -57,17 +57,39 @@ var reportSearchCmd = &cobra.Command{
 				continue
 			}
 
+			// the reports you get from the API are not de-duplicated so we have to do it ourselves :(
+			reportsSeen := make(map[string]struct{})
+			dedupedReports := make([]trustar.ReportDetails, 0)
 			for _, r := range reports.Reports {
+				// if the report has already been processed, update the associated enclaves and de-duplicate it
+				_, exists := reportsSeen[r.ID]
+				if exists {
+					// append the enclave
+					for j := range dedupedReports {
+						if dedupedReports[j].ID == r.ID {
+							dedupedReports[j].EnclaveIds = append(dedupedReports[j].EnclaveIds, r.EnclaveIds...)
+						}
+					}
+				} else {
+					reportsSeen[r.ID] = struct{}{}
+					dedupedReports = append(dedupedReports, trustar.ReportDetails{
+						Created:    r.Created,
+						EnclaveIds: r.EnclaveIds,
+						ID:         r.ID,
+						Title:      r.Title,
+						Updated:    r.Updated,
+					})
+				}
+			}
 
-				// AFAIK each report will only have one enclave attached to it
-				// but the API specifies it is an array so proccessing the entire thing just to be safe
+			for _, r := range dedupedReports {
 				associatedEnclaves := make([]string, 0)
 
 				for _, e := range r.EnclaveIds {
 					associatedEnclaves = append(associatedEnclaves, lookupEnclave(e))
 				}
 
-				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated), strings.Join(associatedEnclaves, ","))
+				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated), strings.Join(associatedEnclaves, ", "))
 				numOfReports++
 			}
 

@@ -103,16 +103,47 @@ var indicatorFindCorrelatedReportsCmd = &cobra.Command{
 				return t.Format("2006-01-02 15:04:05 MST")
 			}
 
+			// the reports you get from the API are not de-duplicated so we have to do it ourselves :(
+			reportsSeen := make(map[string]struct{})
+			dedupedReports := make([]trustar.ReportDetails, 0)
 			for _, r := range correlatedReports.Items {
-				// AFAIK each report will only have one enclave attached to it
-				// but the API specifies it is an array so proccessing the entire thing just to be safe
+				// if the report has already been processed, update the associated enclaves and de-duplicate it
+				_, exists := reportsSeen[r.ID]
+				if exists {
+					// append the enclave
+					for j := range dedupedReports {
+						if dedupedReports[j].ID == r.ID {
+							e := make([]string, len(r.EnclaveIds))
+							for i, v := range r.EnclaveIds {
+								e[i] = fmt.Sprint(v)
+							}
+							dedupedReports[j].EnclaveIds = append(dedupedReports[j].EnclaveIds, e...)
+						}
+					}
+				} else {
+					reportsSeen[r.ID] = struct{}{}
+					e := make([]string, len(r.EnclaveIds))
+					for i, v := range r.EnclaveIds {
+						e[i] = fmt.Sprint(v)
+					}
+					dedupedReports = append(dedupedReports, trustar.ReportDetails{
+						Created:    r.Created,
+						EnclaveIds: e,
+						ID:         r.ID,
+						Title:      r.Title,
+						Updated:    r.Updated,
+					})
+				}
+			}
+
+			for _, r := range correlatedReports.Items {
 				associatedEnclaves := make([]string, 0)
 
 				for _, e := range r.EnclaveIds {
 					associatedEnclaves = append(associatedEnclaves, lookupEnclave(e.(string)))
 				}
 
-				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated), strings.Join(associatedEnclaves, ","))
+				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated), strings.Join(associatedEnclaves, ", "))
 			}
 
 			if len(correlatedReports.Items) > 0 {
