@@ -94,7 +94,7 @@ var indicatorFindCorrelatedReportsCmd = &cobra.Command{
 
 			headerFmt := color.New(color.FgCyan, color.Underline).SprintfFunc()
 			columnFmt := color.New(color.FgYellow).SprintfFunc()
-			tbl := table.New("id", "title", "created", "updated")
+			tbl := table.New("id", "title", "created", "updated", "enclave")
 			tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
 
 			formatTime := func(e int64) string {
@@ -103,7 +103,15 @@ var indicatorFindCorrelatedReportsCmd = &cobra.Command{
 			}
 
 			for _, r := range correlatedReports.Items {
-				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated))
+				// AFAIK each report will only have one enclave attached to it
+				// but the API specifies it is an array so proccessing the entire thing just to be safe
+				associatedEnclaves := make([]string, 0)
+
+				for _, e := range r.EnclaveIds {
+					associatedEnclaves = append(associatedEnclaves, lookupEnclave(e.(string)))
+				}
+
+				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated), strings.Join(associatedEnclaves, ","))
 			}
 
 			if len(correlatedReports.Items) > 0 {

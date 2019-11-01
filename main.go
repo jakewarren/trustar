@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sync"
 	"time"
 
+	"github.com/GitbookIO/diskache"
 	"github.com/briandowns/spinner"
 	"github.com/jakewarren/trustar-golang"
 	"github.com/rs/zerolog"
@@ -16,6 +18,10 @@ import (
 
 var (
 	c *trustar.Client
+
+	// disk cache to hold enclave information
+	enclaveCache *diskache.Diskache
+	onlyOnce     sync.Once
 
 	// global config struct to hold all the flags
 	config = struct {
@@ -87,6 +93,9 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("error creating client")
 	}
+
+	// TODO: add a verbose parameter to specify the logging level
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 
 	// TODO: add option for user to log to file
 	c.SetLog(ioutil.Discard)

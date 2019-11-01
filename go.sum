@@ -1,6 +1,10 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/GitbookIO/diskache v0.0.0-20161028144708-bfb81bf58cb1 h1:1ui53h0HCYjyrlza+yY+sQsulJdHdYL/xdVWIH3UsyE=
+github.com/GitbookIO/diskache v0.0.0-20161028144708-bfb81bf58cb1/go.mod h1:TTHndD25/UJVOyBl/vOq2g5RIg4bidGlmtzb+4Zr+Nw=
+github.com/GitbookIO/syncgroup v0.0.0-20181003125046-3e73b2e6a972 h1:t9LCqP1L6hvq0uQAzFp20CPpHzlZGLoNFG2bm4I/4F4=
+github.com/GitbookIO/syncgroup v0.0.0-20181003125046-3e73b2e6a972/go.mod h1:2Cn3sd0iZa+NmA9dsv8p/fQMx0TK+jzQUbJSjULomrc=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=

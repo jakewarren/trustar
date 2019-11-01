@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"strings"
 
 	"github.com/fatih/color"
 	"github.com/jakewarren/trustar-golang"
@@ -29,7 +30,7 @@ var reportSearchCmd = &cobra.Command{
 
 		headerFmt := color.New(color.FgCyan, color.Underline).SprintfFunc()
 		columnFmt := color.New(color.FgYellow).SprintfFunc()
-		tbl := table.New("id", "title", "created", "updated")
+		tbl := table.New("id", "title", "created", "updated", "enclave")
 		tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
 
 		formatTime := func(e int64) string {
@@ -56,7 +57,16 @@ var reportSearchCmd = &cobra.Command{
 			}
 
 			for _, r := range reports.Reports {
-				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated))
+
+				// AFAIK each report will only have one enclave attached to it
+				// but the API specifies it is an array so proccessing the entire thing just to be safe
+				associatedEnclaves := make([]string, 0)
+
+				for _, e := range r.EnclaveIds {
+					associatedEnclaves = append(associatedEnclaves, lookupEnclave(e))
+				}
+
+				tbl.AddRow(r.ID, r.Title, formatTime(r.Created), formatTime(r.Updated), strings.Join(associatedEnclaves, ","))
 				numOfReports++
 			}
 
