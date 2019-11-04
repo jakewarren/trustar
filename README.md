@@ -22,9 +22,9 @@ The program currently reads the API tokens from the `TRUSTAR_API_KEY` and `TRUST
 |--------------|--------------|----------------------------------------------|-----------------------------------------------------------------------|
 | autocomplete |              | Generates bash completion scripts            |                                                                       |
 | help         |              | Help about any command                       |                                                                       |
-| indicator    | find-reports | Find all correlated reports for an indicator | As of now, does not support wildcard searches                         |
-| indicator    | search       | Search indicators                            | Not really that useful since you don't get much data back.            |
-| reports      | search       | Search reports                               | Does support wildcard searches for indicators.                        |
+| indicator    | find-reports | Find all correlated reports for an indicator |                                                                       |
+| indicator    | search       | Search indicators                            |                                                                       |
+| reports      | search       | Search reports                               |                                                                       |
 | reports      | open         | Open the specified report(s) in your browser |                                                                       |
 | list         |              | Lists enclaves                               |                                                                       |
 | quota        |              | Print API request quota information          |                                                                       |
