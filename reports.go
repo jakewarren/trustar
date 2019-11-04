@@ -57,30 +57,7 @@ var reportSearchCmd = &cobra.Command{
 				continue
 			}
 
-			// the reports you get from the API are not de-duplicated so we have to do it ourselves :(
-			reportsSeen := make(map[string]struct{})
-			dedupedReports := make([]trustar.ReportDetails, 0)
-			for _, r := range reports.Reports {
-				// if the report has already been processed, update the associated enclaves and de-duplicate it
-				_, exists := reportsSeen[r.ID]
-				if exists {
-					// append the enclave
-					for j := range dedupedReports {
-						if dedupedReports[j].ID == r.ID {
-							dedupedReports[j].EnclaveIds = append(dedupedReports[j].EnclaveIds, r.EnclaveIds...)
-						}
-					}
-				} else {
-					reportsSeen[r.ID] = struct{}{}
-					dedupedReports = append(dedupedReports, trustar.ReportDetails{
-						Created:    r.Created,
-						EnclaveIds: r.EnclaveIds,
-						ID:         r.ID,
-						Title:      r.Title,
-						Updated:    r.Updated,
-					})
-				}
-			}
+			dedupedReports := deduplicateReports(reports.Reports)
 
 			for _, r := range dedupedReports {
 				associatedEnclaves := make([]string, 0)
@@ -100,6 +77,28 @@ var reportSearchCmd = &cobra.Command{
 			fmt.Printf("\n%d report(s) found.\n", numOfReports)
 		}
 	},
+}
+
+// the reports we get from the API are not de-duplicated so we have to do it ourselves :(
+func deduplicateReports(reports []trustar.ReportDetails) []trustar.ReportDetails {
+	reportsSeen := make(map[string]struct{})
+	dedupedReports := make([]trustar.ReportDetails, 0)
+	for _, r := range reports {
+		// if the report has already been processed, update the associated enclaves and de-duplicate it
+		_, exists := reportsSeen[r.ID]
+		if exists {
+			// append the enclave
+			for j := range dedupedReports {
+				if dedupedReports[j].ID == r.ID {
+					dedupedReports[j].EnclaveIds = append(dedupedReports[j].EnclaveIds, r.EnclaveIds...)
+				}
+			}
+		} else {
+			reportsSeen[r.ID] = struct{}{}
+			dedupedReports = append(dedupedReports, r)
+		}
+	}
+	return dedupedReports
 }
 
 var reportOpenCmd = &cobra.Command{
