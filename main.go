@@ -97,33 +97,36 @@ var rootCmd = &cobra.Command{
 			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
 		}
 
-		if config.debugLog != "" {
-
-			f, err := os.OpenFile(config.debugLog, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+		// for all commands other than autocomplete, initialize the client
+		if cmd.Use != "autocomplete" {
+			var err error
+			c, err = trustar.NewClient(viper.GetString("TRUSTAR_API_KEY"), viper.GetString("TRUSTAR_API_SECRET"), trustar.APIBaseLive)
 			if err != nil {
-				log.Fatal().Err(err).Msg("error opening debug log")
+				log.Fatal().Err(err).Msg("error creating client")
 			}
 
-			c.SetLog(f)
-		} else {
-			c.SetLog(ioutil.Discard)
+			_, err = c.GetAccessToken()
+			if err != nil {
+				log.Fatal().Err(err).Msg("error while getting access token")
+			}
+
+			if config.debugLog != "" {
+
+				f, logErr := os.OpenFile(config.debugLog, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+				if logErr != nil {
+					log.Fatal().Err(logErr).Msg("error opening debug log")
+				}
+
+				c.SetLog(f)
+			} else {
+				c.SetLog(ioutil.Discard)
+			}
 		}
 	},
 }
 
 func main() {
-	var err error
-	c, err = trustar.NewClient(viper.GetString("TRUSTAR_API_KEY"), viper.GetString("TRUSTAR_API_SECRET"), trustar.APIBaseLive)
-	if err != nil {
-		log.Fatal().Err(err).Msg("error creating client")
-	}
-
-	_, err = c.GetAccessToken()
-	if err != nil {
-		log.Fatal().Err(err).Msg("error while getting access token")
-	}
-
-	if err = rootCmd.Execute(); err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(0)
 	}
