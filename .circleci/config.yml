@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  lint:
+    docker:
+      - image: golangci/golangci-lint:v1.19.1
+    steps:
+      - checkout
+      - run:
+         name: "Run golangci-lint"
+         command: golangci-lint run --color always --enable-all --exclude-use-default -D godox -D gochecknoglobals -D gochecknoinits -D lll
+  test:
+    docker:
+      - image: circleci/golang:1.13
+    working_directory: /go/src/github.com/jakewarren/trustar
+    steps:
+      - checkout
+      - run:
+          name: "Run tests"
+          command: |
+            go test -v -race ./...
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - lint
+      - test
