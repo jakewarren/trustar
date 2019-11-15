@@ -26,6 +26,12 @@ jobs:
           name: "Run tests"
           command: |
             go test -v -race ./...
+  release:
+    docker:
+      - image: circleci/golang:1.13
+    steps:
+      - checkout
+      - run: curl -sL https://git.io/goreleaser | bash
 
 workflows:
   version: 2
@@ -34,3 +40,10 @@ workflows:
       - lint
       - test
       - critic
+      - release:
+          # Only run this job on git tag pushes
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*(-.*)*/
