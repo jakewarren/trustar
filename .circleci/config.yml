@@ -8,6 +8,14 @@ jobs:
       - run:
          name: "Run golangci-lint"
          command: golangci-lint run --color always --enable-all --exclude-use-default -D godox -D gochecknoglobals -D gochecknoinits -D lll
+  critic:
+    docker:
+      - image: jakewarren/gocritic:latest
+    steps:
+      - checkout
+      - run:
+          name: "Run gocritic"
+          command: gocritic check -enableAll -coloredOutput || true
   test:
     docker:
       - image: circleci/golang:1.13
@@ -25,3 +33,4 @@ workflows:
     jobs:
       - lint
       - test
+      - critic
