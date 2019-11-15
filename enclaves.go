@@ -53,7 +53,7 @@ func setupEnclaveCache() error {
 
 	log.Debug().Str("dir", dir).Msg("setting up enclave")
 	opts := diskache.Opts{
-		Directory: fmt.Sprintf("%s", dir),
+		Directory: dir,
 	}
 
 	enclaveCache, err = diskache.New(&opts)
