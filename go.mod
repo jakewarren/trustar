@@ -10,7 +10,7 @@ require (
 	github.com/jakewarren/trustar-golang v0.0.0-20191104225852-2ef8f313b37d
 	github.com/mattn/go-runewidth v0.0.5 // indirect
 	github.com/rodaine/table v1.0.0
-	github.com/rs/zerolog v1.16.0
+	github.com/rs/zerolog v1.23.0
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/viper v1.4.0
 )
